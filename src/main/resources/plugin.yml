@@ -1,0 +1,19 @@
+name: HarvestHelper
+version: 1.0.0
+main: io.mckenz.HarvestHelper
+api-version: 1.16
+description: A lightweight plugin that allows players to harvest and replant crops in one action
+commands:
+  harvesthelper:
+    description: Main command for HarvestHelper plugin
+    usage: /harvesthelper [toggle|reload|stats]
+    aliases: [hh]
+permissions:
+  harvesthelper.use:
+    description: Allows players to use the harvest-replant feature
+    default: true
+  harvesthelper.admin:
+    description: Allows access to admin commands
+    default: op
+    children:
+      harvesthelper.use: true 

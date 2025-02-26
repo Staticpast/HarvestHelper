@@ -1,0 +1,24 @@
+# HarvestHelper Configuration
+
+# Enable or disable the plugin
+enabled: true
+
+# Tool requirements
+tool-requirements:
+  enabled: true
+  require-hoe: false  # If true, only hoes will work for harvest-replant
+
+# Effects
+effects:
+  particles: true
+  sounds: true
+
+# Permissions
+require-permission: false
+permission-node: "harvesthelper.use"
+
+# Statistics
+track-statistics: true
+
+# Debug mode (prints additional information to console)
+debug: false 
