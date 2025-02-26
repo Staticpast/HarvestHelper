@@ -40,6 +40,21 @@ public class CropHarvestListener implements Listener {
         supportedCrops.put(Material.BEETROOTS, new CropInfo(Material.BEETROOT_SEEDS, "beetroot"));
         supportedCrops.put(Material.NETHER_WART, new CropInfo(Material.NETHER_WART, "nether_wart"));
         
+        // Newer crops (1.20+)
+        try {
+            // These materials might not exist in older versions, so we use try-catch
+            Material torchflower = Material.valueOf("TORCHFLOWER");
+            Material torchflowerSeeds = Material.valueOf("TORCHFLOWER_SEEDS");
+            Material pitcherCrop = Material.valueOf("PITCHER_CROP");
+            Material pitcherPod = Material.valueOf("PITCHER_POD");
+            
+            supportedCrops.put(torchflower, new CropInfo(torchflowerSeeds, "torchflower"));
+            supportedCrops.put(pitcherCrop, new CropInfo(pitcherPod, "pitcher_plant"));
+        } catch (IllegalArgumentException e) {
+            // Materials not found, likely running on an older version
+            plugin.getLogger().info("Newer crop types (Torchflower, Pitcher Plant) not detected. Skipping.");
+        }
+        
         // Special crops
         supportedCrops.put(Material.COCOA, new CropInfo(Material.COCOA_BEANS, "cocoa_beans"));
         supportedCrops.put(Material.SWEET_BERRY_BUSH, new CropInfo(Material.SWEET_BERRIES, "sweet_berries"));
@@ -181,11 +196,18 @@ public class CropHarvestListener implements Listener {
         }
         
         // Give drops to the player
-        for (ItemStack item : drops) {
+        if (plugin.getConfigManager().isDropItemsOnGround()) {
+            // Drop items on the ground
+            for (ItemStack item : drops) {
+                player.getWorld().dropItemNaturally(block.getLocation().add(0.5, 0.5, 0.5), item);
+            }
+        } else {
             // Add items to inventory or drop them if inventory is full
-            HashMap<Integer, ItemStack> leftover = player.getInventory().addItem(item);
-            for (ItemStack leftoverItem : leftover.values()) {
-                player.getWorld().dropItemNaturally(player.getLocation(), leftoverItem);
+            for (ItemStack item : drops) {
+                HashMap<Integer, ItemStack> leftover = player.getInventory().addItem(item);
+                for (ItemStack leftoverItem : leftover.values()) {
+                    player.getWorld().dropItemNaturally(player.getLocation(), leftoverItem);
+                }
             }
         }
         
@@ -206,6 +228,7 @@ public class CropHarvestListener implements Listener {
     }
     
     private boolean isFullyGrown(Block block) {
+        Material blockType = block.getType();
         BlockData blockData = block.getBlockData();
         
         if (blockData instanceof Ageable) {

@@ -14,6 +14,7 @@ public class ConfigManager {
     private boolean requirePermission;
     private String permissionNode;
     private boolean trackStatistics;
+    private boolean dropItemsOnGround;
     private boolean debug;
     
     public ConfigManager(HarvestHelper plugin) {
@@ -25,18 +26,30 @@ public class ConfigManager {
         
         // Load configuration values
         enabled = config.getBoolean("enabled", true);
+        debug = config.getBoolean("debug", false);
+        
+        // Tool requirements
         toolRequirementsEnabled = config.getBoolean("tool-requirements.enabled", true);
         requireHoe = config.getBoolean("tool-requirements.require-hoe", false);
+        
+        // Effects
         particlesEnabled = config.getBoolean("effects.particles", true);
         soundsEnabled = config.getBoolean("effects.sounds", true);
-        requirePermission = config.getBoolean("require-permission", false);
-        permissionNode = config.getString("permission-node", "harvesthelper.use");
-        trackStatistics = config.getBoolean("track-statistics", true);
-        debug = config.getBoolean("debug", false);
+        
+        // Permissions
+        requirePermission = config.getBoolean("permissions.require-permission", false);
+        permissionNode = config.getString("permissions.permission-node", "harvesthelper.use");
+        
+        // Statistics
+        trackStatistics = config.getBoolean("statistics.enabled", true);
+        
+        // Drops
+        dropItemsOnGround = config.getBoolean("drops.drop-on-ground", false);
         
         if (debug) {
             plugin.getLogger().info("Configuration loaded:");
             plugin.getLogger().info("Enabled: " + enabled);
+            plugin.getLogger().info("Debug: " + debug);
             plugin.getLogger().info("Tool Requirements Enabled: " + toolRequirementsEnabled);
             plugin.getLogger().info("Require Hoe: " + requireHoe);
             plugin.getLogger().info("Particles Enabled: " + particlesEnabled);
@@ -44,6 +57,7 @@ public class ConfigManager {
             plugin.getLogger().info("Require Permission: " + requirePermission);
             plugin.getLogger().info("Permission Node: " + permissionNode);
             plugin.getLogger().info("Track Statistics: " + trackStatistics);
+            plugin.getLogger().info("Drop Items On Ground: " + dropItemsOnGround);
         }
     }
     
@@ -83,6 +97,10 @@ public class ConfigManager {
     
     public boolean isTrackStatistics() {
         return trackStatistics;
+    }
+    
+    public boolean isDropItemsOnGround() {
+        return dropItemsOnGround;
     }
     
     public boolean isDebug() {

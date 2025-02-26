@@ -1,24 +1,68 @@
+# ======================================
 # HarvestHelper Configuration
+# ======================================
+# Plugin Version: 1.0.0
+# 
+# This configuration file controls all aspects of the HarvestHelper plugin.
+# For support or questions, visit: https://github.com/McKenzieJDan/HarvestHelper
 
-# Enable or disable the plugin
+# ======================================
+# General Settings
+# ======================================
+
+# Master switch to enable or disable the plugin
 enabled: true
 
-# Tool requirements
-tool-requirements:
-  enabled: true
-  require-hoe: false  # If true, only hoes will work for harvest-replant
+# Debug mode - when enabled, additional information will be printed to the console
+# Only enable this when troubleshooting issues
+debug: false
 
-# Effects
+# ======================================
+# Harvesting Settings
+# ======================================
+
+# Tool requirements for harvesting
+tool-requirements:
+  # If enabled, tool requirements will be checked before harvesting
+  enabled: true
+  
+  # If enabled, players must use a hoe to harvest crops
+  # Supported hoes: wooden, stone, iron, golden, diamond, netherite
+  require-hoe: false
+
+# Item drop behavior
+drops:
+  # When true, harvested items will drop on the ground at the crop location
+  # When false, harvested items will be added directly to the player's inventory
+  drop-on-ground: false
+
+# ======================================
+# Visual and Audio Effects
+# ======================================
+
 effects:
+  # Show particle effects when harvesting crops
   particles: true
+  
+  # Play sound effects when harvesting crops
   sounds: true
 
-# Permissions
-require-permission: false
-permission-node: "harvesthelper.use"
+# ======================================
+# Permission Settings
+# ======================================
 
-# Statistics
-track-statistics: true
+permissions:
+  # If enabled, players must have the specified permission to use the plugin
+  require-permission: false
+  
+  # The permission node required to use the plugin (if require-permission is true)
+  permission-node: "harvesthelper.use"
 
-# Debug mode (prints additional information to console)
-debug: false 
+# ======================================
+# Statistics Tracking
+# ======================================
+
+# Enable or disable tracking of harvest statistics
+# Statistics track how many of each crop type a player has harvested
+statistics:
+  enabled: true 

@@ -5,94 +5,72 @@ A Minecraft Spigot plugin that allows players to harvest and replant crops in on
 ## Features
 
 * 🌾 Right-click to harvest and instantly replant crops
-* 🛠️ Works with all vanilla farmable crops (wheat, carrots, potatoes, beetroot, nether wart, cocoa beans, sweet berries)
-* 🔧 Configurable tool requirements (hoe only, any tool, or bare hands)
-* 💫 Optional particle effects on successful harvest
-* 🔊 Optional sound effects on harvest
-* ⚙️ Configurable permissions
-* 📊 Optional statistics tracking
-* 💼 Compatibility with protection plugins (respects block break permissions)
+* 🛠️ Support for multiple crop types (wheat, carrots, potatoes, beetroot, nether wart, cocoa beans, sweet berries, and more)
+* 🔧 Configurable tool requirements and item drop behavior
+* 💫 Optional visual and audio effects
+* ⚙️ Permissions system and statistics tracking
 
 ## Installation
 
-1. Download the latest release from the [releases page](https://github.com/yourusername/HarvestHelper/releases)
+1. Download the latest release from the [releases page](https://github.com/McKenzieJDan/HarvestHelper/releases)
 2. Place the JAR file in your server's `plugins` folder
 3. Restart your server
 4. Configure the plugin in the `config.yml` file
 
-## Configuration
+## Usage
 
-The plugin's configuration file (`config.yml`) allows you to customize various aspects of the plugin:
+Right-click on fully grown crops to harvest and automatically replant them. The drops will be added to your inventory or dropped on the ground based on your configuration.
 
-```yaml
-# Enable or disable the plugin
-enabled: true
-
-# Tool requirements
-tool-requirements:
-  enabled: true
-  require-hoe: false  # If true, only hoes will work for harvest-replant
-
-# Effects
-effects:
-  particles: true
-  sounds: true
-
-# Permissions
-require-permission: false
-permission-node: "harvesthelper.use"
-
-# Statistics
-track-statistics: true
-
-# Debug mode (prints additional information to console)
-debug: false
-```
-
-## Commands
+### Commands
 
 * `/harvesthelper toggle` - Enable or disable the plugin
 * `/harvesthelper reload` - Reload the configuration
 * `/harvesthelper stats` - View your harvest statistics
 * `/harvesthelper stats server` - View server-wide statistics (admin only)
 
-## Permissions
+### Permissions
 
 * `harvesthelper.use` - Ability to use the harvest-replant feature (default: true)
 * `harvesthelper.admin` - Access to admin commands (default: op)
 
-## Supported Crops
+## Configuration
 
-* Wheat
-* Carrots
-* Potatoes
-* Beetroot
-* Nether Wart
-* Cocoa Beans
-* Sweet Berries
+The plugin's configuration file (`config.yml`) is organized into logical sections:
 
-## How It Works
+```yaml
+# General Settings - Enable/disable plugin and debug mode
+enabled: true
+debug: false
 
-1. Right-click on a fully grown crop with the appropriate tool (if tool requirements are enabled)
-2. The crop will be harvested and automatically replanted
-3. The drops will be added to your inventory (or dropped if your inventory is full)
-4. Optional particle and sound effects will play
-5. Statistics will be tracked if enabled
+# Harvesting Settings - Tool requirements and item drop behavior
+tool-requirements:
+  enabled: true
+  require-hoe: false
+drops:
+  drop-on-ground: false
+
+# Effects - Particles and sounds
+effects:
+  particles: true
+  sounds: true
+
+# Permissions and Statistics
+permissions:
+  require-permission: false
+  permission-node: "harvesthelper.use"
+statistics:
+  enabled: true
+```
+
+For detailed configuration options, see the comments in the generated config.yml file.
 
 ## Requirements
 
 - Spigot/Paper 1.21.4
 - Java 17+
 
-## Development
-To build the plugin yourself:
-
-1. Clone the repository
-2. Run `mvn clean package`
-3. Find the built jar in the `target` folder
-
-
 ## Support
+
 If you find this plugin helpful, consider [buying me a coffee](https://www.paypal.com/paypalme/mckenzio) ☕
 
 ## License
