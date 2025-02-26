@@ -2,7 +2,7 @@
 
 A Minecraft Spigot plugin that allows players to harvest and replant crops in one action by right-clicking.
 
-[![SpigotMC](https://img.shields.io/badge/SpigotMC-HarvestHelper-orange)](https://www.spigotmc.org/resources/harvesthelper.XXXXX/)
+[![SpigotMC](https://img.shields.io/badge/SpigotMC-HarvestHelper-orange)](https://www.spigotmc.org/resources/harvesthelper.122863/)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/paypalme/mckenzio)
 
 ## Features
@@ -18,7 +18,7 @@ A Minecraft Spigot plugin that allows players to harvest and replant crops in on
 
 ## Installation
 
-1. Download the latest release from [Spigot](https://www.spigotmc.org/resources/harvesthelper.XXXXX/) or [GitHub Releases](https://github.com/McKenzieJDan/HarvestHelper/releases)
+1. Download the latest release from [Spigot](https://www.spigotmc.org/resources/harvesthelper.122863/) or [GitHub Releases](https://github.com/McKenzieJDan/HarvestHelper/releases)
 2. Place the JAR file in your server's `plugins` folder
 3. Restart your server
 4. Configure the plugin in the `config.yml` file
