@@ -66,3 +66,18 @@ permissions:
 # Statistics track how many of each crop type a player has harvested
 statistics:
   enabled: true 
+
+# ======================================
+# Update Checker Settings
+# ======================================
+
+update-checker:
+  # Enable or disable the update checker
+  enabled: true
+
+  # The SpigotMC resource ID for the plugin
+  # https://www.spigotmc.org/resources/harvesthelper.122863/
+  resource-id: 122863
+  
+  # Whether to notify admins when they join if an update is available
+  notify-admins: true

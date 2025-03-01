@@ -16,6 +16,10 @@ public class ConfigManager {
     private boolean trackStatistics;
     private boolean dropItemsOnGround;
     private boolean debug;
+    // Update checker settings
+    private boolean updateCheckerEnabled;
+    private int updateCheckerResourceId;
+    private boolean updateCheckerNotifyAdmins;
     
     public ConfigManager(HarvestHelper plugin) {
         this.plugin = plugin;
@@ -46,6 +50,11 @@ public class ConfigManager {
         // Drops
         dropItemsOnGround = config.getBoolean("drops.drop-on-ground", false);
         
+        // Update checker
+        updateCheckerEnabled = config.getBoolean("update-checker.enabled", true);
+        updateCheckerResourceId = config.getInt("update-checker.resource-id", 122863);
+        updateCheckerNotifyAdmins = config.getBoolean("update-checker.notify-admins", true);
+        
         if (debug) {
             plugin.getLogger().info("Configuration loaded:");
             plugin.getLogger().info("Enabled: " + enabled);
@@ -58,6 +67,9 @@ public class ConfigManager {
             plugin.getLogger().info("Permission Node: " + permissionNode);
             plugin.getLogger().info("Track Statistics: " + trackStatistics);
             plugin.getLogger().info("Drop Items On Ground: " + dropItemsOnGround);
+            plugin.getLogger().info("Update Checker Enabled: " + updateCheckerEnabled);
+            plugin.getLogger().info("Update Checker Resource ID: " + updateCheckerResourceId);
+            plugin.getLogger().info("Update Checker Notify Admins: " + updateCheckerNotifyAdmins);
         }
     }
     
@@ -105,5 +117,17 @@ public class ConfigManager {
     
     public boolean isDebug() {
         return debug;
+    }
+    
+    public boolean isUpdateCheckerEnabled() {
+        return updateCheckerEnabled;
+    }
+    
+    public int getUpdateCheckerResourceId() {
+        return updateCheckerResourceId;
+    }
+    
+    public boolean isUpdateCheckerNotifyAdmins() {
+        return updateCheckerNotifyAdmins;
     }
 } 

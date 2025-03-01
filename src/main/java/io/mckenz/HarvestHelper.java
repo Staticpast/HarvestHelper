@@ -4,6 +4,7 @@ import io.mckenz.commands.CommandHandler;
 import io.mckenz.config.ConfigManager;
 import io.mckenz.listeners.CropHarvestListener;
 import io.mckenz.stats.StatsManager;
+import io.mckenz.utils.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -11,6 +12,7 @@ public class HarvestHelper extends JavaPlugin {
     
     private ConfigManager configManager;
     private StatsManager statsManager;
+    private UpdateChecker updateChecker;
     
     @Override
     public void onEnable() {
@@ -29,6 +31,14 @@ public class HarvestHelper extends JavaPlugin {
         
         // Register commands
         getCommand("harvesthelper").setExecutor(new CommandHandler(this));
+        
+        // Initialize update checker if enabled
+        if (configManager.isUpdateCheckerEnabled()) {
+            updateChecker = new UpdateChecker(this, 
+                configManager.getUpdateCheckerResourceId(), 
+                configManager.isUpdateCheckerNotifyAdmins());
+            updateChecker.checkForUpdates();
+        }
         
         getLogger().info("HarvestHelper has been enabled!");
     }
@@ -51,9 +61,26 @@ public class HarvestHelper extends JavaPlugin {
         return statsManager;
     }
     
+    public UpdateChecker getUpdateChecker() {
+        return updateChecker;
+    }
+    
     public void reload() {
         reloadConfig();
         configManager.loadConfig();
+        
+        // Re-initialize update checker if settings changed
+        if (configManager.isUpdateCheckerEnabled()) {
+            if (updateChecker == null) {
+                updateChecker = new UpdateChecker(this, 
+                    configManager.getUpdateCheckerResourceId(), 
+                    configManager.isUpdateCheckerNotifyAdmins());
+                updateChecker.checkForUpdates();
+            }
+        } else {
+            updateChecker = null;
+        }
+        
         getLogger().info("HarvestHelper configuration reloaded!");
     }
 } 

@@ -71,6 +71,20 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
         plugin.reload();
         sender.sendMessage(ChatColor.GREEN + "HarvestHelper configuration reloaded!");
         
+        // Check for updates after reload if enabled
+        if (plugin.getConfigManager().isUpdateCheckerEnabled() && plugin.getUpdateChecker() != null) {
+            if (plugin.getUpdateChecker().isUpdateAvailable()) {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', 
+                    "&7[&aHarvestHelper&7] &eA new update is available: &f" + plugin.getUpdateChecker().getLatestVersion() + 
+                    " &e(Current: &f" + plugin.getDescription().getVersion() + "&e)"));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', 
+                    "&7[&aHarvestHelper&7] &eDownload it at: &fhttps://www.spigotmc.org/resources/" + 
+                    plugin.getConfigManager().getUpdateCheckerResourceId()));
+            } else {
+                sender.sendMessage(ChatColor.GREEN + "You are running the latest version of HarvestHelper!");
+            }
+        }
+        
         return true;
     }
     
@@ -162,11 +176,34 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
     
     private void sendHelpMessage(CommandSender sender) {
         sender.sendMessage(ChatColor.GREEN + "=== HarvestHelper Commands ===");
-        sender.sendMessage(ChatColor.YELLOW + "/harvesthelper toggle" + ChatColor.WHITE + " - Enable or disable the plugin");
-        sender.sendMessage(ChatColor.YELLOW + "/harvesthelper reload" + ChatColor.WHITE + " - Reload the configuration");
-        sender.sendMessage(ChatColor.YELLOW + "/harvesthelper stats" + ChatColor.WHITE + " - View your harvest statistics");
+        
+        // Basic commands for all users
+        if (plugin.getConfigManager().isTrackStatistics()) {
+            sender.sendMessage(ChatColor.YELLOW + "/harvesthelper stats" + ChatColor.WHITE + " - View your harvest statistics");
+        }
+        
+        // Admin commands
         if (sender.hasPermission("harvesthelper.admin")) {
-            sender.sendMessage(ChatColor.YELLOW + "/harvesthelper stats server" + ChatColor.WHITE + " - View server-wide statistics");
+            sender.sendMessage(ChatColor.YELLOW + "/harvesthelper toggle" + ChatColor.WHITE + " - Enable or disable the plugin");
+            sender.sendMessage(ChatColor.YELLOW + "/harvesthelper reload" + ChatColor.WHITE + " - Reload the configuration");
+            
+            if (plugin.getConfigManager().isTrackStatistics()) {
+                sender.sendMessage(ChatColor.YELLOW + "/harvesthelper stats server" + ChatColor.WHITE + " - View server-wide statistics");
+            }
+            
+            // Show update information if available
+            if (plugin.getConfigManager().isUpdateCheckerEnabled() && 
+                plugin.getUpdateChecker() != null && 
+                plugin.getUpdateChecker().isUpdateAvailable()) {
+                
+                sender.sendMessage(ChatColor.GREEN + "=== Update Available ===");
+                sender.sendMessage(ChatColor.YELLOW + "Current version: " + ChatColor.WHITE + 
+                    plugin.getDescription().getVersion());
+                sender.sendMessage(ChatColor.YELLOW + "Latest version: " + ChatColor.WHITE + 
+                    plugin.getUpdateChecker().getLatestVersion());
+                sender.sendMessage(ChatColor.YELLOW + "Download at: " + ChatColor.WHITE + 
+                    "https://www.spigotmc.org/resources/" + plugin.getConfigManager().getUpdateCheckerResourceId());
+            }
         }
     }
     
