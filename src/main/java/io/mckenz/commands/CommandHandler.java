@@ -75,10 +75,11 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
         if (plugin.getConfigManager().isUpdateCheckerEnabled() && plugin.getUpdateChecker() != null) {
             if (plugin.getUpdateChecker().isUpdateAvailable()) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                    "&7[&aHarvestHelper&7] &eA new update is available: &f" + plugin.getUpdateChecker().getLatestVersion() + 
-                    " &e(Current: &f" + plugin.getDescription().getVersion() + "&e)"));
+                    "&7[&aHarvestHelper&7] &7A new update is available: &bv" + plugin.getUpdateChecker().getLatestVersion()));
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', 
-                    "&7[&aHarvestHelper&7] &eDownload it at: &fhttps://www.spigotmc.org/resources/" + 
+                    "&7[&aHarvestHelper&7] &7You are currently running: &bv" + plugin.getDescription().getVersion()));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', 
+                    "&7[&aHarvestHelper&7] &7Download it at: &bhttps://www.spigotmc.org/resources/" + 
                     plugin.getConfigManager().getUpdateCheckerResourceId()));
             } else {
                 sender.sendMessage(ChatColor.GREEN + "You are running the latest version of HarvestHelper!");
@@ -197,11 +198,11 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
                 plugin.getUpdateChecker().isUpdateAvailable()) {
                 
                 sender.sendMessage(ChatColor.GREEN + "=== Update Available ===");
-                sender.sendMessage(ChatColor.YELLOW + "Current version: " + ChatColor.WHITE + 
+                sender.sendMessage(ChatColor.YELLOW + "Current version: " + ChatColor.AQUA + "v" + 
                     plugin.getDescription().getVersion());
-                sender.sendMessage(ChatColor.YELLOW + "Latest version: " + ChatColor.WHITE + 
+                sender.sendMessage(ChatColor.YELLOW + "Latest version: " + ChatColor.AQUA + "v" + 
                     plugin.getUpdateChecker().getLatestVersion());
-                sender.sendMessage(ChatColor.YELLOW + "Download at: " + ChatColor.WHITE + 
+                sender.sendMessage(ChatColor.YELLOW + "Download at: " + ChatColor.AQUA + 
                     "https://www.spigotmc.org/resources/" + plugin.getConfigManager().getUpdateCheckerResourceId());
             }
         }

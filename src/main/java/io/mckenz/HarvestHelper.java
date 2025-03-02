@@ -76,8 +76,12 @@ public class HarvestHelper extends JavaPlugin {
                     configManager.getUpdateCheckerResourceId(), 
                     configManager.isUpdateCheckerNotifyAdmins());
                 updateChecker.checkForUpdates();
+            } else {
+                // Re-check for updates with current settings
+                updateChecker.checkForUpdates();
             }
         } else {
+            // Disable update checker if it's disabled in config
             updateChecker = null;
         }
         
