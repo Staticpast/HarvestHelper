@@ -1,7 +1,7 @@
 # ======================================
 # HarvestHelper Configuration
 # ======================================
-# Plugin Version: 1.0.0
+# Plugin Version: ${project.version}
 # 
 # This configuration file controls all aspects of the HarvestHelper plugin.
 # For support or questions, visit: https://github.com/McKenzieJDan/HarvestHelper

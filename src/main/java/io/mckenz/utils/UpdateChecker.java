@@ -20,9 +20,9 @@ public class UpdateChecker implements Listener {
 
     private final HarvestHelper plugin;
     private final int resourceId;
-    private String latestVersion;
-    private boolean updateAvailable = false;
     private final boolean notifyAdmins;
+    private boolean updateAvailable = false;
+    private String latestVersion = null;
 
     /**
      * Create a new update checker
@@ -64,11 +64,34 @@ public class UpdateChecker implements Listener {
                 String normalizedCurrent = normalizeVersion(currentVersion);
                 String normalizedLatest = normalizeVersion(latestVersion);
                 
-                if (!normalizedCurrent.equalsIgnoreCase(normalizedLatest)) {
-                    updateAvailable = true;
-                    plugin.getLogger().info("A new update is available: v" + latestVersion);
-                    plugin.getLogger().info("You are currently running: v" + currentVersion);
-                    plugin.getLogger().info("Download the latest version from: https://www.spigotmc.org/resources/" + resourceId);
+                // Compare versions using semantic versioning
+                if (!versionsEqual(normalizedCurrent, normalizedLatest)) {
+                    // Check if the latest version is actually newer
+                    String[] currentParts = normalizedCurrent.split("\\.");
+                    String[] latestParts = normalizedLatest.split("\\.");
+                    
+                    boolean isNewer = false;
+                    for (int i = 0; i < Math.min(currentParts.length, latestParts.length); i++) {
+                        int currentPart = Integer.parseInt(currentParts[i]);
+                        int latestPart = Integer.parseInt(latestParts[i]);
+                        
+                        if (latestPart > currentPart) {
+                            isNewer = true;
+                            break;
+                        } else if (latestPart < currentPart) {
+                            // Current version is actually newer than "latest"
+                            break;
+                        }
+                    }
+                    
+                    if (isNewer) {
+                        updateAvailable = true;
+                        plugin.getLogger().info("A new update is available: v" + latestVersion);
+                        plugin.getLogger().info("You are currently running: v" + currentVersion);
+                        plugin.getLogger().info("Download the latest version from: https://www.spigotmc.org/resources/" + resourceId);
+                    } else {
+                        plugin.getLogger().info("You are running the latest version: v" + currentVersion);
+                    }
                 } else {
                     plugin.getLogger().info("You are running the latest version: v" + currentVersion);
                 }
@@ -96,13 +119,25 @@ public class UpdateChecker implements Listener {
     }
     
     /**
+     * Compare two version strings for equality
+     * 
+     * @param version1 The first version string
+     * @param version2 The second version string
+     * @return True if the versions are equal, false otherwise
+     */
+    private boolean versionsEqual(String version1, String version2) {
+        // Simple string comparison after normalization
+        return version1.equals(version2);
+    }
+    
+    /**
      * Normalize a version string for comparison
      * @param version The version string to normalize
      * @return The normalized version string
      */
     private String normalizeVersion(String version) {
-        // Remove 'v' prefix if present
-        if (version.startsWith("v")) {
+        // Remove all 'v' prefixes (handles cases like 'vv1.1.0')
+        while (version.startsWith("v")) {
             version = version.substring(1);
         }
         
@@ -112,7 +147,17 @@ public class UpdateChecker implements Listener {
             version = version.substring(0, dashIndex);
         }
         
-        return version.trim();
+        // Trim any whitespace
+        version = version.trim();
+        
+        // Ensure consistent format for comparison
+        // For example, convert "1.1" to "1.1.0" if needed
+        String[] parts = version.split("\\.");
+        if (parts.length == 2) {
+            version = version + ".0";
+        }
+        
+        return version;
     }
 
     /**
