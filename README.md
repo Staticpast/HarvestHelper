@@ -75,6 +75,11 @@ For detailed configuration options, see the comments in the generated config.yml
 - Spigot/Paper 1.21.5
 - Java 17+
 
+## Used By
+
+- [SuegoFaults](https://suegofaults.com) - A friendly, adult-run Minecraft server where HarvestHelper keeps farming effortless and community gardens thriving.
+
+
 ## Support
 
 If you find this plugin helpful, consider [buying me a coffee](https://www.paypal.com/paypalme/mckenzio) ☕
