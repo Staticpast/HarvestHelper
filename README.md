@@ -77,7 +77,7 @@ For detailed configuration options, see the comments in the generated config.yml
 
 ## Used By
 
-- [SuegoFaults](https://suegofaults.com) - A friendly, adult-run Minecraft server where HarvestHelper keeps farming effortless and community gardens thriving.
+[SuegoFaults](https://suegofaults.com) - A friendly, adult-run Minecraft server where HarvestHelper keeps farming effortless and community gardens thriving.
 
 
 ## Support
