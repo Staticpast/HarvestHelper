@@ -72,7 +72,7 @@ For detailed configuration options, see the comments in the generated config.yml
 
 ## Requirements
 
-- Spigot/Paper 1.21.5
+- Spigot/Paper 1.21.6
 - Java 17+
 
 ## Used By
