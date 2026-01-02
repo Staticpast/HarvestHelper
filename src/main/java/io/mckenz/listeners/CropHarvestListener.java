@@ -10,6 +10,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Directional;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,9 +18,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class CropHarvestListener implements Listener {
     
@@ -124,6 +124,12 @@ public class CropHarvestListener implements Listener {
         // Special handling for seeds (keep one seed for replanting)
         boolean seedKept = false;
         Material seedType = cropInfo.getSeedType();
+
+        // Handle fortune
+        int fortune = 0;
+        if (plugin.getConfigManager().isSupportFortune() && isHoe(player.getInventory().getItemInMainHand().getType())) {
+            fortune = player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.FORTUNE);
+        }
         
         // Replant the crop
         if (blockType == Material.COCOA) {
@@ -194,7 +200,12 @@ public class CropHarvestListener implements Listener {
             ItemStack seedItem = new ItemStack(seedType, 1);
             player.getInventory().removeItem(seedItem);
         }
-        
+
+        // Apply vanilla-like fortune AFTER replanting logic
+        if (fortune > 0) {
+            applyFortune(drops, fortune, seedType);
+        }
+
         // Give drops to the player
         if (plugin.getConfigManager().isDropItemsOnGround()) {
             // Drop items on the ground
@@ -247,7 +258,40 @@ public class CropHarvestListener implements Listener {
                material == Material.DIAMOND_HOE ||
                material == Material.NETHERITE_HOE;
     }
-    
+
+    private void applyFortune(
+            Collection<ItemStack> drops,
+            int fortuneLevel,
+            Material seedType
+    ) {
+        if (fortuneLevel <= 0) return;
+
+        Random random = ThreadLocalRandom.current();
+
+        // Track which materials already had fortune applied
+        Set<Material> processed = new HashSet<>();
+
+        for (ItemStack item : drops) {
+            Material type = item.getType();
+
+            // Skip seeds and already-processed materials
+            if (type == seedType || processed.contains(type)) {
+                continue;
+            }
+
+            processed.add(type);
+
+            // Vanilla-like roll: may be zero
+            int bonus = random.nextInt(fortuneLevel + 1);
+
+            if (bonus > 0) {
+                item.setAmount(item.getAmount() + bonus);
+            }
+        }
+    }
+
+
+
     private static class CropInfo {
         private final Material seedType;
         private final String statName;

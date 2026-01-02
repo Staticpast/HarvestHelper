@@ -9,6 +9,7 @@ public class ConfigManager {
     private boolean enabled;
     private boolean toolRequirementsEnabled;
     private boolean requireHoe;
+    private boolean supportFortune;
     private boolean particlesEnabled;
     private boolean soundsEnabled;
     private boolean requirePermission;
@@ -35,6 +36,7 @@ public class ConfigManager {
         // Tool requirements
         toolRequirementsEnabled = config.getBoolean("tool-requirements.enabled", true);
         requireHoe = config.getBoolean("tool-requirements.require-hoe", false);
+        supportFortune = config.getBoolean("tool-requirements.support-fortune", false);
         
         // Effects
         particlesEnabled = config.getBoolean("effects.particles", true);
@@ -61,6 +63,7 @@ public class ConfigManager {
             plugin.getLogger().info("Debug: " + debug);
             plugin.getLogger().info("Tool Requirements Enabled: " + toolRequirementsEnabled);
             plugin.getLogger().info("Require Hoe: " + requireHoe);
+            plugin.getLogger().info("Support Fortune: " + supportFortune);
             plugin.getLogger().info("Particles Enabled: " + particlesEnabled);
             plugin.getLogger().info("Sounds Enabled: " + soundsEnabled);
             plugin.getLogger().info("Require Permission: " + requirePermission);
@@ -90,6 +93,8 @@ public class ConfigManager {
     public boolean isRequireHoe() {
         return requireHoe;
     }
+
+    public boolean isSupportFortune() { return supportFortune; }
     
     public boolean isParticlesEnabled() {
         return particlesEnabled;
