@@ -30,6 +30,9 @@ tool-requirements:
   # Supported hoes: wooden, stone, iron, golden, diamond, netherite
   require-hoe: false
 
+  # If enabled, the fortune enchant will work with harvested crops
+  support-fortune: false
+
 # Item drop behavior
 drops:
   # When true, harvested items will drop on the ground at the crop location
